@@ -4,27 +4,12 @@ Written by Justus Wolff in very late 2025.
 
 #include <stdlib.h>
 #include <memory.h>
+#include <string.h>
+
+#include "memory.h"
 #include "common.h"
+#include "cores.h"
 
-#define VM_rowsize 128
-
-typedef VM_word(*VM_mrhook)(uint16_t);
-typedef void(*VM_mwhook)(VM_word, uint16_t);
-
-typedef struct {
-	uint16_t rows;
-	VM_word* content;
-
-	// hooks
-	uint16_t rha;
-	uint16_t wha;
-	VM_mrhook rhooks[32];
-	VM_mwhook whooks[32];
-	uint16_t rhaddrf[32];
-	uint16_t whaddrf[32];
-	uint16_t rhaddrt[32];
-	uint16_t whaddrt[32];
-} VM_memory;
 
 void VM_addrhook(VM_memory* memory, uint16_t addr, VM_mrhook hook, uint16_t length) {
 	memory->rhooks[memory->rha++] = hook;

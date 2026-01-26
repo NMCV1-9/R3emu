@@ -4,7 +4,6 @@ Written by Justus Wolff in very late 2025.
 
 #include "common.h"
 
-typedef uint8_t VM_flags;
 
 /*
 flag indexes:

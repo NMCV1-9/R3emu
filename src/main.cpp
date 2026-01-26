@@ -2,25 +2,24 @@
 #include <fstream>
 #include <filesystem>
 #include <string>
-#include "cores.c"
+
 #include "argh.h"
 #include <memory.h>
 #include <SDL.h>
-#include "terminal.c"
-#include "keyboard.c"
+
 #include <unistd.h>
-#include "common.c"
-#include "disassembler.c"
+
 #include <cmath>
-
-// emulator needs to be recompiled IF you change these for things to have an affect.
-#define CONF_memrows 64 // amount of memory rows get emulated.
-#define CONF_coreamount 10 // amount of cores the emulator emulates. can go up to an max of 50 by standard, check the main function. all cores are multiply capable by standard.
-#define CONF_memdump 0 // if 1, dumps the memory after emulation
-#define CONF_targetfps 60 // target fps. multiply this by core amount and you got your target ips.
-#define CONF_fpslimiter 1 // if set to 1, tries to limit the fps to targetfps.
-#define CONF_updxframes 10 // only updates the SDL window every <this value>th frame.
-
+extern "C" {
+#include "terminal.h"
+#include "keyboard.h"
+#include "common.h"
+#include "disassembler.h"
+#include "config.h"
+#include "cores.h"
+#include "memory.h"
+#include "cores.h"
+}
 VM_keyboard* HOOK_keyboard;
 VM_term* HOOK_term;
 SDL_Renderer* renderer;
@@ -130,23 +129,23 @@ uint64_t smolmin(uint64_t x, uint64_t y) {
 	return (x < y) ? x : y;
 }
 void calcmemcol(VM_word value, uint8_t* out) { // taken from an R2 emulator at https://github.com/catsoften/r2_emulator/blob/master/src/memory.js, thanks! (was too lazy to implement on ma own)
-		uint64_t wl = value | 0x20000000;
-		uint64_t x, r = 0, g = 0, b = 0, a = 127;
-		for (x = 0; x < 12; x++) {
-			r += (wl >> (x + 18)) & 1;
-			b += (wl >> x) & 1;
-		}
-		for (x = 0; x < 12; x++) {
-			g += (wl >> (x + 9)) & 1;
-		}
-		x = trunc(624 / (r + g + b + 1));
-		r = trunc(a * smolmin(r * x, 255) / 0xFF);
-		g = trunc(a * smolmin(g * x, 255) / 0xFF);
-		b = trunc(a * smolmin(b * x, 255) / 0xFF);
-		out[0] = r;
-		out[1] = g;
-		out[2] = b;
+	uint64_t wl = value | 0x20000000;
+	uint64_t x, r = 0, g = 0, b = 0, a = 127;
+	for (x = 0; x < 12; x++) {
+		r += (wl >> (x + 18)) & 1;
+		b += (wl >> x) & 1;
 	}
+	for (x = 0; x < 12; x++) {
+		g += (wl >> (x + 9)) & 1;
+	}
+	x = trunc(624 / (r + g + b + 1));
+	r = trunc(a * smolmin(r * x, 255) / 0xFF);
+	g = trunc(a * smolmin(g * x, 255) / 0xFF);
+	b = trunc(a * smolmin(b * x, 255) / 0xFF);
+	out[0] = r;
+	out[1] = g;
+	out[2] = b;
+}
 void rendermem(VM_memory memory) {
 	for (uint64_t row=0;row<CONF_memrows;row++) {
 		for (uint64_t column=0;column<128;column++) {
