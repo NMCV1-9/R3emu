@@ -1,0 +1,13 @@
+project('R3 emulator', 'cpp')
+add_global_arguments('-O3', language : 'c')
+
+sdl2_dep = dependency('sdl2')
+
+executable('R3emu', 'src/main.cpp', dependencies: sdl2_dep)
+
+t1 = executable('TEST_ALU_add', 'src/tests/ALU_add.cpp')
+test('ALU_add', t1)
+t2 = executable('TEST_ALU_sub', 'src/tests/ALU_sub.cpp')
+test('ALU_sub', t2)
+t3 = executable('TEST_ALU_shifts', 'src/tests/ALU_shifts.cpp')
+test('ALU_shifts', t3)

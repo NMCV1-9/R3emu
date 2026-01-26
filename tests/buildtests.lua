@@ -1,0 +1,7 @@
+tptasm = loadfile("tptasm.lua")
+tptasm("test0.asm", "test0.bin", nil, "R3A0564")
+tptasm("demo.asm", "demo.bin", nil, "R3A0564")
+tptasm("wordle.asm", "wordle.bin", nil, "R3A0564")
+tptasm("colortest.asm", "colortest.bin", nil, "R3A0564")
+tptasm("demodism.asm", "demodism.bin", nil, "R3A0564")
+tptasm("pixplot.asm", "pixplot.bin", nil, "R3A0564")
