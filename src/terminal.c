@@ -1,15 +1,9 @@
 /*
 Written by Justus Wolff in very late 2025.
 */
-
+#include "terminal.h"
 #include "common.h"
 #include "font8x8_basic.h"
-
-#define CONF_charsnh 12
-#define CONF_charsnv 8
-#define CONF_haspixplot 1
-#define CONF_charsam CONF_charsnh*CONF_charsnv // dont edit
-#define CONF_pixam (8*CONF_charsnh)*(8*CONF_charsnv) // dont edit
 
 /* color table
 0 	#000000 	black
@@ -50,17 +44,6 @@ VM_pixel VM_colortable[16][3] = {
     {0xFF, 0xFF, 0xFF}, // white
 };
 
-typedef struct {
-    uint8_t pixbuf[CONF_pixam];
-    uint8_t colors;
-    uint16_t hrange;
-    uint16_t vrange;
-    uint16_t cursor;
-    uint8_t nlchar;
-    uint32_t scrollmask;
-    uint32_t char0even;
-    uint32_t char0odd;
-} VM_term;
 
 VM_term VM_newterm() {
     VM_term out;

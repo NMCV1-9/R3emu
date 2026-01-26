@@ -3,11 +3,7 @@ Written by Justus Wolff in very late 2025.
 */
 
 #include "common.h"
-
-typedef struct {
-    char keycode;
-} VM_keyboard;
-
+#include "keyboard.h"
 void VM_registerkeypress(VM_keyboard* keyboard, char key) {
     keyboard->keycode = key;
 }
