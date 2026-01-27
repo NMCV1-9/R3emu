@@ -2,6 +2,7 @@
 Written by Justus Wolff in very late 2025.
 */
 #include <stdlib.h>
+#include <string.h>
 #include "terminal.h"
 #include "common.h"
 #include "font8x8_basic.h"
@@ -48,6 +49,7 @@ VM_pixel VM_colortable[16][3] = {
 
 VM_term VM_newterm(uint8_t charsnh, uint8_t charsnv) {
     VM_term out;
+    memset(&out, 0, sizeof(out));
     out.charsnh = charsnh;
     out.charsnv = charsnv;
     uint32_t pixam = (8 * charsnh) * (8 * charsnv);

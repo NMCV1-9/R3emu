@@ -47,6 +47,7 @@ char* CORE_itoa(VM_word n) {
 
 char* VM_disasminstruction(VM_word instruction) {
     char* buf = (char*)malloc(sizeof(char)*128);
+    if (!buf) {return NULL;}
     buf[0] = 0x00;
 
 

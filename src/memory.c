@@ -60,11 +60,11 @@ VM_word VM_memread(VM_memory memory, uint16_t addr) {
 	patchword(&temp);
 	return temp;
 }
-void VM_memwrite(VM_memory memory, uint16_t addr, VM_word newval) {
-	if (VM_callwhooks(memory, addr, newval)) {return;}
-	if (addr >= VM_getsize(memory.rows, memory.rowsize)) {return;}
+void VM_memwrite(VM_memory* memory, uint16_t addr, VM_word newval) {
+	if (VM_callwhooks(*memory, addr, newval)) {return;}
+	if (addr >= VM_getsize(memory->rows, memory->rowsize)) {return;}
 	patchword(&newval);
-	memory.content[addr] = newval;
+	memory->content[addr] = newval;
 }
 
 

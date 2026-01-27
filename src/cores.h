@@ -32,6 +32,6 @@ typedef struct {
     uint64_t tracesize;
 } VM_vminstance;
 
-VM_vminstance VM_newinstance(uint8_t memsize, uint8_t coreamount, uint8_t* coretypes, uint16_t rowsize, uint8_t allowsmul, uint8_t maketracedump, uint64_t tracesize);
+VM_vminstance VM_newinstance(uint8_t memsize, uint8_t coreamount, const uint8_t* coretypes, uint16_t rowsize, uint8_t allowsmul, uint8_t maketracedump, uint64_t tracesize);
 void VM_delinstance(VM_vminstance inst);
 void VM_instcycle(VM_vminstance* _inst);

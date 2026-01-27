@@ -33,6 +33,7 @@
             pkgs.clang
             pkgs.gcc
             pkgs.gnumake
+            pkgs.cppcheck
           ];
         };
 

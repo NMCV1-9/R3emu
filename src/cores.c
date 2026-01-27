@@ -8,8 +8,9 @@ Written by Justus Wolff in very late 2025.
 #include "config.h"
 #include "memory.h"
 
-VM_vminstance VM_newinstance(uint8_t memsize, uint8_t coreamount, uint8_t* coretypes, uint16_t rowsize, uint8_t allowsmul, uint8_t maketracedump, uint64_t tracesize) {
+VM_vminstance VM_newinstance(uint8_t memsize, uint8_t coreamount, const uint8_t* coretypes, uint16_t rowsize, uint8_t allowsmul, uint8_t maketracedump, uint64_t tracesize) {
     VM_vminstance out;
+    memset(&out, 0, sizeof(out));
 
     out.memory = VM_newmemory(memsize, rowsize);
     out.coreamount = coreamount;
@@ -205,7 +206,7 @@ void VM_handleschmem(VM_vminstance* inst) {
         writereg(&inst->regs, inst->sch_reg, VM_memread(inst->memory, inst->sch_addr));
     }
     if (inst->sch_mode == 0x1) { // memwrite
-        VM_memwrite(inst->memory, inst->sch_addr, readreg(&inst->regs, inst->sch_reg));
+        VM_memwrite(&inst->memory, inst->sch_addr, readreg(&inst->regs, inst->sch_reg));
     }
     inst->sch_mode = 0x2;
 }

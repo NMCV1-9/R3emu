@@ -22,7 +22,7 @@ typedef struct {
 
 
 VM_word VM_memread(VM_memory memory, uint16_t addr);
-void VM_memwrite(VM_memory memory, uint16_t addr, VM_word newval);
+void VM_memwrite(VM_memory* memory, uint16_t addr, VM_word newval);
 void VM_addrhook(VM_memory* memory, uint16_t addr, VM_mrhook hook, uint16_t length);
 void VM_addwhook(VM_memory* memory, uint16_t addr, VM_mwhook hook, uint16_t length);
 uint16_t VM_getsize(uint8_t rows, uint16_t rowsize);
